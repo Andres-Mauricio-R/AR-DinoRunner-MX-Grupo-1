@@ -1,5 +1,7 @@
 import pygame
 from dino_runner.components.dinosaur import Dinosaur
+from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 
 
@@ -17,7 +19,7 @@ class Game:
         self.y_pos_bg = 380
 
         self.player = Dinosaur()
-        
+        self.obstacle_manager = ObstacleManager()
 
 
     def run(self):
@@ -37,12 +39,15 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed() #con esto obtenemos el useer imput
         self.player.update(user_input)
+        self.obstacle_manager.update(self)
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
         self.player.draw(self.screen)
+        self.obstacle_manager.draw(self.screen)
+
 
 
         pygame.display.update() #las dos ultimas lineas se encargan de dibujar
