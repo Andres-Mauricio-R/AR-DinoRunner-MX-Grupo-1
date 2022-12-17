@@ -6,6 +6,7 @@ from dino_runner.components.obstacles.bird import Bird
 
 
 
+
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []
@@ -38,8 +39,6 @@ class ObstacleManager:
 
                 if game.player_heart_manager.heart_count > 0:
                     self.obstacles.pop()
-                    
-                    
                     
                 else:
 

@@ -23,8 +23,7 @@ class Game:
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.player_heart_manager = PlayerHeartManager()
-        #slef.power_up_manager  = 
-
+        
         self.death_count = 0
         self.points = 0
         self.running = True
