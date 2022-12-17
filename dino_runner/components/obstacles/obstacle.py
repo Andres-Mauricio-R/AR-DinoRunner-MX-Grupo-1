@@ -16,7 +16,7 @@ class Obstacle(Sprite):
         if self.rect.x < -self.rect.width:
             obstacles.pop()
 
-        pass
+        #pass
 
 
     def draw(self, screen):
