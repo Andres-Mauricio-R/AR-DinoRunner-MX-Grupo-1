@@ -1,8 +1,10 @@
 import pygame
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
-
+from dino_runner.components.player_hearts.player_heart_manager import PlayerHeartManager
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.components import text_utils
+
 
 
 class Game:
@@ -20,6 +22,18 @@ class Game:
 
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
+        self.player_heart_manager = PlayerHeartManager()
+
+        self.death_count = 0
+        self.points = 0
+        self.running = True
+
+
+    def execute(self):
+        while self.running:
+            if not self.playing:
+                self.show_menu()
+                
 
 
     def run(self):
@@ -29,12 +43,14 @@ class Game:
             self.events()
             self.update()
             self.draw()
-        pygame.quit()
+        #pygame.quit()
 
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playing = False
+
+
 
     def update(self):
         user_input = pygame.key.get_pressed() #con esto obtenemos el useer imput
@@ -44,9 +60,11 @@ class Game:
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
+        self.draw_score()
         self.draw_background()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
+        self.player_heart_manager.draw(self.screen)
 
 
 
@@ -61,3 +79,63 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
+
+
+    def draw_score(self):
+        self.points += 1
+
+        if self.points % 100 == 0:
+            self.game_speed += 1
+
+        
+        text, text_rect = text_utils.get_score_element(self.points)
+        self.screen.blit(text, text_rect)
+
+    
+    def show_menu(self):
+        self.running = True
+        white_color = (255, 255, 255)
+        self.screen.fill(white_color)
+
+        self.print_menu_elements()
+
+        pygame.display.update()
+
+        self.handle_key_events_on_menu()
+        
+        
+
+
+    def print_menu_elements(self):
+        half_screen_heght = SCREEN_HEIGHT // 2
+
+        if self.death_count == 0:
+            text, text_rect = text_utils.get_centered_message("press any key to START")
+            self.screen.blit(text, text_rect)
+
+        elif self.death_count > 0:
+            text, text_rect = text_utils.get_centered_message("")
+            score, score_rect = text_utils.get_centered_message("Your score is:  "+ str(self.points), height = SCREEN_HEIGHT // 2 + 50)
+            death, death_rect =  text_utils.get_centered_message("Death count:  " + str(self.death_count), half_screen_heght +100)
+            self.screen.blit(score, score_rect)
+            self.screen.blit(text, text_rect)
+            self.screen.blit(death, death_rect)
+
+
+    def handle_key_events_on_menu(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.playing = False
+                self.running = False
+                pygame.display.quit()
+                pygame.quit() 
+            if event.type == pygame.KEYDOWN:
+                self.player_heart_manager = PlayerHeartManager()
+                self.run()
+
+
+
+
+
+
+
