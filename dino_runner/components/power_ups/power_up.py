@@ -9,9 +9,12 @@ class PowerUp(Sprite):
         self.type = type
         self.rect = self.image.get_rect()
         self.rect.x = SCREEN_HEIGHT + random.randint(800,1000)
-        self.rect.y = random.randint(100, 125)
+        self.rect.y = random.randint(100, 250)
         self.start_time = 0
         self.width = self.image.get_width()
+        #self.get_dance(SCREEN_HEIGHT/2)
+
+
 
 
     
@@ -21,6 +24,18 @@ class PowerUp(Sprite):
             powerups.pop()
 
 
+
+
+
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-        
+
+    def get_dance(self, Height =250):
+        self.rect.y = 100
+        while Height > self.rect.y:
+            self.rect.y += 3
+        if self.rect.y == Height:
+            while self.rect.y > 100:
+                self.rect.y -= 3
+
+

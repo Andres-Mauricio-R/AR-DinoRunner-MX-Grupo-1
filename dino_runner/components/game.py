@@ -2,9 +2,10 @@ import pygame
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.player_hearts.player_heart_manager import PlayerHeartManager
+from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 from dino_runner.components import text_utils
-
+from dino_runner.utils.constants import BACKGROUND_SOUND
 
 
 class Game:
@@ -23,10 +24,15 @@ class Game:
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.player_heart_manager = PlayerHeartManager()
-        
+        self.power_up_manager= PowerUpManager()
+
         self.death_count = 0
         self.points = 0
         self.running = True
+        BACKGROUND_SOUND.set_volume(0.25)
+        BACKGROUND_SOUND.play()
+        chanel = pygame.mixer.find_channel(True)
+        chanel.play(BACKGROUND_SOUND, -1)
 
 
     def execute(self):
@@ -56,6 +62,7 @@ class Game:
         user_input = pygame.key.get_pressed() #con esto obtenemos el useer imput
         self.player.update(user_input)
         self.obstacle_manager.update(self)
+        self.power_up_manager.update(self.points, self.game_speed, self.player, self.player_heart_manager)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -65,6 +72,7 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.player_heart_manager.draw(self.screen)
+        self.power_up_manager.draw(self.screen)
 
 
 
@@ -86,9 +94,9 @@ class Game:
 
         if self.points % 100 == 0:
             self.game_speed += 1
-
         
         text, text_rect = text_utils.get_score_element(self.points)
+        self.player.check_visibility(self.screen)
         self.screen.blit(text, text_rect)
 
     
@@ -107,7 +115,7 @@ class Game:
 
 
     def print_menu_elements(self):
-        half_screen_heght = SCREEN_HEIGHT // 2
+        half_screen_height = SCREEN_HEIGHT // 2
 
         if self.death_count == 0:
             text, text_rect = text_utils.get_centered_message("press any key to START")
@@ -131,7 +139,9 @@ class Game:
                 pygame.quit() 
             if event.type == pygame.KEYDOWN:
                 self.player_heart_manager = PlayerHeartManager()
+                self.obstacle_manager = ObstacleManager()
                 self.points = 0
+                self.game_speed = 20
                 self.run()
 
 

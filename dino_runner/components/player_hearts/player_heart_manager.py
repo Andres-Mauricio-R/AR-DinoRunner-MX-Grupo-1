@@ -19,6 +19,8 @@ class PlayerHeartManager:
 
     def reduce_heart(self):
         self.heart_count -= 1
+    def add_heart(self): # aumenta vida
+        self.heart_count += 1
 
 
 

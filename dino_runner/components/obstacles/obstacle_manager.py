@@ -3,7 +3,7 @@ from dino_runner.components.obstacles.cactus import Cactus
 import pygame
 from dino_runner.utils.constants import LARGE_CACTUS, SMALL_CACTUS, BIRD
 from dino_runner.components.obstacles.bird import Bird
-
+from dino_runner.utils.constants import BREAK_SOUND,DAMAGE_SOUND
 
 
 
@@ -34,19 +34,24 @@ class ObstacleManager:
 
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed, self.obstacles)
-            if game.player.dino_rect.colliderect(obstacle.rect): #si hubo un choque retorna true
+            ## cuando no tengo escudos
+            if game.player.dino_rect.colliderect(obstacle.rect) and game.player.shield == False: #si hubo un choque retorna true
+                BREAK_SOUND.stop()
+                DAMAGE_SOUND.play()
                 game.player_heart_manager.reduce_heart()
 
                 if game.player_heart_manager.heart_count > 0:
                     self.obstacles.pop()
-                    
                 else:
-
                     pygame.time.delay(500)
                     self.obstacles.remove(obstacle)
                     game.playing = False
                     game.death_count += 1
                     break
+            if game.player.dino_rect.colliderect(obstacle.rect) and game.player.shield == True: #si hubo un choque retorna true
+                if game.player_heart_manager.heart_count > 0:
+                    BREAK_SOUND.play()
+                    self.obstacles.pop()
 
 
     
