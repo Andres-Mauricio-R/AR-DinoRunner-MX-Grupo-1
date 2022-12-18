@@ -29,6 +29,7 @@ RUNNING_HAMMER = [
 ]
 
 JUMPING = pygame.image.load(os.path.join(ASSETS_DIR, "Dino/DinoJump.png"))
+DEATH = pygame.image.load(os.path.join(ASSETS_DIR, "Dino/DinoDead.png"))
 JUMPING_SHIELD = pygame.image.load(os.path.join(ASSETS_DIR, "Dino/DinoJumpShield.png"))
 JUMPING_HAMMER = pygame.image.load(os.path.join(ASSETS_DIR, "Dino/DinoJumpHammer.png"))
 
@@ -63,7 +64,11 @@ BIRD = [
     pygame.image.load(os.path.join(ASSETS_DIR, "Bird/Bird2.png")),
 ]
 
-CLOUD = pygame.image.load(os.path.join(ASSETS_DIR, 'Other/Cloud.png'))
+CLOUD = [
+    pygame.image.load(os.path.join(ASSETS_DIR, 'Other/Cloud.png')),
+    pygame.image.load(os.path.join(ASSETS_DIR, 'Other/Cloud1.png')),
+    pygame.image.load(os.path.join(ASSETS_DIR, 'Other/Cloud2.png')),
+]
 SHIELD = pygame.image.load(os.path.join(ASSETS_DIR, 'Other/shield.png'))
 FUNGU = pygame.image.load(os.path.join(ASSETS_DIR, 'Other/hongo.png'))
 HAMMER = pygame.image.load(os.path.join(ASSETS_DIR, 'Other/hammer.png'))

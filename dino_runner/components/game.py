@@ -62,12 +62,14 @@ class Game:
         user_input = pygame.key.get_pressed() #con esto obtenemos el useer imput
         self.player.update(user_input)
         self.obstacle_manager.update(self)
+        self.obstacle_manager.update_cloud(self)
         self.power_up_manager.update(self.points, self.game_speed, self.player, self.player_heart_manager)
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_score()
+        self.obstacle_manager.draw_cloud(self.screen)
         self.draw_background()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
