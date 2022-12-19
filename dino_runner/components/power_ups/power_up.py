@@ -12,7 +12,7 @@ class PowerUp(Sprite):
         self.rect.y = random.randint(100, 250)
         self.start_time = 0
         self.width = self.image.get_width()
-        #self.get_dance(SCREEN_HEIGHT/2)
+        
 
 
 

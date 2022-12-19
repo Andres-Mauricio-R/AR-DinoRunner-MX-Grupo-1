@@ -19,7 +19,6 @@ class PowerUpManager:
         probalityGetPower = random.randint(0, 100) # Probabilidad que aparesca un escudo
 
         if probalityGetPower == 1: # Cuando el Numero rando sea igual a 1
-            print("generate a new POWER UP")
             self.generate_power_ups(points)
 
 
@@ -28,6 +27,7 @@ class PowerUpManager:
             powerup.update(game_speed, self.power_ups)
             if (player.dino_rect.colliderect(powerup.rect)):
                 if isinstance(powerup, Hammer): # si es de tipo Martillo
+                    HAMMER_SOUND.set_volume(0.2)
                     SHIELD_SOUND.stop()
                     HAMMER_SOUND.stop()
                     LIFE_SOUND.stop()
@@ -37,15 +37,14 @@ class PowerUpManager:
                     powerup.start_time = pygame.time.get_ticks()
                     player.shield_time_up = powerup.start_time + ((random.randint(5,8) * 1000)) #
                 if  isinstance(powerup, Fungu): # si es de tipo Hongo
+                    LIFE_SOUND.set_volume(0.2)
                     SHIELD_SOUND.stop()
                     HAMMER_SOUND.stop()
                     LIFE_SOUND.stop()
                     LIFE_SOUND.play()
                     player.shield = False # Agarre el escudo
                     player_heart_manager.add_heart() # Aumenta vida
-                    # TODO: lanzar el audio
                 if isinstance(powerup, Shield): # Si es de Tipo Shield
-                    # TODO: lanzar el audio
                     SHIELD_SOUND.stop()
                     HAMMER_SOUND.stop()
                     LIFE_SOUND.stop()
@@ -61,7 +60,6 @@ class PowerUpManager:
 
 
     def draw(self, screen):
-        # TODO: realizar movimientos en x, y
         for powerup in self.power_ups:
             powerup.draw(screen)
 
@@ -72,7 +70,6 @@ class PowerUpManager:
             # if self.when_appers == self.points:
                 # self.when_appers == random.randint(self.when_appers + 150 , 500 +self.when_appers)
                 random_power_ups_generate = random.randint(0, 2)
-                print(f"RANDOM: {random_power_ups_generate}")
                 if (random_power_ups_generate == 0 ):
                     self.power_ups.append(Shield())
                 if (random_power_ups_generate == 1):

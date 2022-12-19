@@ -85,6 +85,8 @@ JUMP_SOUND = pygame.mixer.Sound(os.path.join(ASSETS_DIR, 'sounds/jump.ogg'))
 LIFE_SOUND = pygame.mixer.Sound(os.path.join(ASSETS_DIR, 'sounds/life.ogg'))
 SHIELD_SOUND = pygame.mixer.Sound(os.path.join(ASSETS_DIR, 'sounds/shield.ogg'))
 DAMAGE_SOUND = pygame.mixer.Sound(os.path.join(ASSETS_DIR, 'sounds/damage.ogg'))
+DUCKING_SOUND = pygame.mixer.Sound(os.path.join(ASSETS_DIR, 'sounds/duck.mp3'))
+
 DEFAULT_TYPE = "default"
 HEART_COUNT = 5
 SHIELD_TYPE = "shield"
